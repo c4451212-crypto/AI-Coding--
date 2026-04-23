@@ -1,0 +1,34 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1740000000000,
+      "tag": "0000_init",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1770000000000,
+      "tag": "0001_permissions_allowed_pages",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1770000000001,
+      "tag": "0002_wecom_group_webhooks",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1770000000002,
+      "tag": "0003_wecom_group_webhooks_company_scope",
+      "breakpoints": true
+    }
+  ]
+}

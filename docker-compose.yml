@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    # 使用 standalone runner（镜像更小）
+    # 默认 target 即 runner（Dockerfile 最后一个阶段不是 runner 时需显式指定）
+    target: runner
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/data/contracts.db
+      - UPLOAD_DIR=/data/uploads
+      - JWT_SECRET=${JWT_SECRET:-change-me}
+      - WECOM_CORP_ID=${WECOM_CORP_ID:-}
+      - WECOM_AGENT_ID=${WECOM_AGENT_ID:-}
+      - WECOM_SECRET=${WECOM_SECRET:-}
+    volumes:
+      - ./data:/data
+      - ./public/uploads:/data/uploads
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  cron:
+    build:
+      context: .
+      target: cron-runner
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/data/contracts.db
+      - JWT_SECRET=${JWT_SECRET:-change-me}
+      - WECOM_CORP_ID=${WECOM_CORP_ID:-}
+      - WECOM_AGENT_ID=${WECOM_AGENT_ID:-}
+      - WECOM_SECRET=${WECOM_SECRET:-}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    volumes:
+      - ./data:/data
