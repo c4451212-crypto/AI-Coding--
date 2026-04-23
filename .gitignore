@@ -6,3 +6,4 @@
 *.db
 *.db-*
 /public/uploads
+tsconfig.tsbuildinfo
